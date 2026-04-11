@@ -10,11 +10,10 @@ class BioSeq:
     def gc_content(self):
         length = len(self.seq)
         if length == 0:
-            gc = 0
+            gc = 0.0
         else:
-            seq = self.seq.upper()
-            g = seq.count('G')
-            c = seq.count('C')
+            g = self.seq.count('G')
+            c = self.seq.count('C')
             gc = (g + c) / length * 100
         return f"💥 GC content: {gc:.2f}% 🧬"
 
