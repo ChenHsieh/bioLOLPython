@@ -1,0 +1,64 @@
+DIALECT = {
+    "name": "gen_z",
+    "era": "~2018-2023",
+    "description": "no cap this DNA is bussin fr fr. TikTok-era slang meets molecular biology.",
+    "commands": {
+        "init": {
+            "pattern": "YO ITS GIVING GENOME",
+            "greeting": "💅 ok bestie let's sequence this slay 🧬",
+        },
+        "end": {
+            "pattern": "PERIODT",
+        },
+        "declare": {
+            "pattern": "NO CAP {name} IS {seq}",
+        },
+        "reverse": {
+            "pattern": "UNO REVERSE {name}",
+        },
+        "gc_content": {
+            "pattern": "VIBE CHECK {name}",
+            "response": "💅 GC content: {value:.2f}% no cap 🧬",
+        },
+        "print": {
+            "pattern": "SPILL",
+        },
+        "transcribe": {
+            "pattern": "MAIN CHARACTER {name}",
+        },
+        "translate": {
+            "pattern": "GLOW UP {name}",
+        },
+        "align": {
+            "pattern": "RIZZ CHECK {a} AND {b}",
+            "response": "✨ RIZZ SCOREZ: {score:.2f} it's giving {rating}",
+        },
+        "mutate": {
+            "pattern": "CAUGHT IN 4K {name}",
+            "response": "📸 caught {name} in 4K at pos {pos}: {old} ➜ {new} sus",
+        },
+        "length": {
+            "pattern": "BESTIE HOW LONG {name}",
+            "response": "📏 {name} is {value} bases long bestie",
+        },
+        "complement": {
+            "pattern": "MIRROR CHECK {name}",
+        },
+        "find_orf": {
+            "pattern": "UNDERSTOOD THE ASSIGNMENT {name}",
+            "orf_found": "💯 ORF understood: {orf} ({length} bp) slay",
+            "orf_missing": "💀 {name} did NOT understand the assignment (no ATG)",
+        },
+        "motif": {
+            "pattern": "LIVING RENT FREE {name} FOR {pattern}",
+            "found": "🏠 '{pattern}' found living rent free in {name} {count} time(s):",
+            "position": "   pos {start}-{end}",
+            "not_found": "🏠 '{pattern}' is NOT living rent free in {name}",
+        },
+    },
+    "examples": {
+        "GC Content": 'YO ITS GIVING GENOME\nNO CAP X IS "ATGCATGC"\nVIBE CHECK X\nPERIODT',
+        "Protein Translation": 'YO ITS GIVING GENOME\nNO CAP Y IS "ATGGAGGAGCC"\nGLOW UP Y\nSPILL "Protein: " + Y\nPERIODT',
+        "Alignment": 'YO ITS GIVING GENOME\nNO CAP A IS "ATGCGTAGG"\nNO CAP B IS "ATGCGTACG"\nRIZZ CHECK A AND B\nPERIODT',
+    },
+}

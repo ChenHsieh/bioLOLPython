@@ -35,9 +35,11 @@ import keyword
 import os
 import types
 from io import StringIO
-from ply import *
+from ply import lex
 from bioLOLPython.bio.sequence import BioSeq
 import codecs
+import re
+import random
 
 bio_vars = {}  # Store sequences by name, e.g., BRRRR
 __NAME__ = "lolpython"
@@ -425,8 +427,6 @@ def t_newline(t):
 
 def t_error(t):
     raise SyntaxError("Unknown symbol %r" % (t.value[0],))
-    print("Skipping", repr(t.value[0]))
-    t.lexer.skip(1)
 
 
 
@@ -744,70 +744,116 @@ def to_python(s):
 # bioLOLCODE Extension Commands 🧬😹
 # Added by Chen Hsieh, 2025
 # - Meme-style DNA sequence tools
+# - Dialect system for internet slang eras
 #####################################
-def handle_line(line):
-    global bio_vars
+from bioLOLPython.dialects import get_dialect, list_dialects, dialect_names
 
-    if line.startswith("HAI GENZOME"):
-        print("🐾 LOADING bioLOLCODE V1... LETZ GOOOO 💥")
-        return
- 
-    # 🍃 DNA declaration
-    if line.startswith("DNA GO"):
-        parts = line.split("ITZ")
-        name = parts[0].split()[-1]
-        seq = parts[1].strip().strip('"')
-        bio_vars[name] = BioSeq(seq)
-        return
- 
-    # 🔁 Reverse complement
-    if line.startswith("REVERSE THAT"):
-        parts = line.split()
-        # Assuming the variable name is the third token
-        name = parts[2]
-        bio_vars[name] = BioSeq(bio_vars[name].reverse_complement())
-        return
- 
-    # 🔬 GC content
-    if line.startswith("GC BOMB"):
-        parts = line.split()
-        # Assuming the variable name is the third token
-        name = parts[2]
-        print(bio_vars[name].gc_content())
-        return
- 
-    # 👁️ Output printing
-    if line.startswith("VISIBLE"):
-        msg = line.replace("VISIBLE", "").strip()
-        import re
-        def repl(match):
-            var_name = match.group(1)
-            return str(bio_vars.get(var_name, match.group(0)))
-        msg = re.sub(r"\b(\w+)\b", repl, msg)
-        print(msg)
-        return
+_current_dialect_name = "lolcat"
 
-    # 💧 Transcribe DNA
-    if line.startswith("TRANSCRIBE"):
-        parts = line.split()
-        name = parts[1]
-        bio_vars[name] = BioSeq(bio_vars[name].seq.transcribe())
-        return
-    
-    # 🍖 Translate DNA to protein
-    if line.startswith("TRANSLATE"):
-        parts = line.split()
-        name = parts[1]
-        bio_vars[name] = BioSeq(bio_vars[name].seq.translate())
+
+def set_dialect(name):
+    global _current_dialect_name
+    get_dialect(name)  # validate it exists
+    _current_dialect_name = name
+
+
+def _get_var(name):
+    if name not in bio_vars:
+        print(f"❌ Variable '{name}' not defined.")
+        return None
+    return bio_vars[name]
+
+
+def _parse_visible(msg):
+    """Parse print message: split on +, strip quotes, resolve variables."""
+    parts = msg.split("+")
+    result = []
+    for part in parts:
+        part = part.strip()
+        if (part.startswith('"') and part.endswith('"')) or \
+           (part.startswith("'") and part.endswith("'")):
+            result.append(part[1:-1])
+        elif part in bio_vars:
+            result.append(str(bio_vars[part]))
+        else:
+            result.append(part)
+    return "".join(result)
+
+
+def _score_rating(score):
+    ratings = ("meh", "ok", "slay", "SHEEESH")
+    return ratings[min(int(score) // 5, 3)]
+
+
+def _execute_command(cmd_name, match, dialect):
+    """Execute a bio command using dialect-specific response templates."""
+    cmd_def = dialect["commands"][cmd_name]
+
+    if cmd_name == "init":
+        print(cmd_def.get("greeting", ""))
         return
 
-    # 🤝 Pairwise alignment
-    if line.startswith("ALIGN"):
+    if cmd_name == "end":
+        return
+
+    if cmd_name == "declare":
+        name = match.group("name")
+        seq = match.group("seq")
+        try:
+            bio_vars[name] = BioSeq(seq)
+        except ValueError as e:
+            print(f"❌ {e}")
+        return
+
+    if cmd_name == "reverse":
+        name = match.group("name")
+        var = _get_var(name)
+        if var:
+            bio_vars[name] = BioSeq(var.reverse_complement())
+        return
+
+    if cmd_name == "gc_content":
+        name = match.group("name")
+        var = _get_var(name)
+        if var:
+            gc = var.gc_content()
+            template = cmd_def.get("response", "GC content: {value:.2f}%")
+            rating = _score_rating(gc / 10)  # 0-100% -> rating
+            print(template.format(value=gc, rating=rating))
+        return
+
+    if cmd_name == "print":
+        # The print pattern matches just the keyword; the rest of the line is the message
+        keyword = cmd_def["pattern"]
+        # Find where the keyword ends in the original line
+        msg = match.string[match.end():].strip()
+        if not msg:
+            # Try getting everything after the keyword
+            idx = match.string.upper().find(keyword.upper())
+            if idx >= 0:
+                msg = match.string[idx + len(keyword):].strip()
+        print(_parse_visible(msg))
+        return
+
+    if cmd_name == "transcribe":
+        name = match.group("name")
+        var = _get_var(name)
+        if var:
+            bio_vars[name] = BioSeq(str(var.seq.transcribe()))
+        return
+
+    if cmd_name == "translate":
+        name = match.group("name")
+        var = _get_var(name)
+        if var:
+            bio_vars[name] = BioSeq(str(var.seq.translate()), validate=False)
+        return
+
+    if cmd_name == "align":
         try:
             from Bio.Align import PairwiseAligner
-            parts = line.split()
-            name1 = parts[1]
-            name2 = parts[3]
+            name1 = match.group("a")
+            name2 = match.group("b")
             if name1 not in bio_vars or name2 not in bio_vars:
                 print("❌ One or both sequences not defined.")
                 return
@@ -822,37 +868,114 @@ def handle_line(line):
                 print("⚠️ No alignment found.")
                 return
 
-            print("🤝 alignment:\n")
-            print(alignments[0].format())  # nicely formatted output
+            print(alignments[0].format())
             score = alignments[0].score
-            print(f"🌈 ALINE SCOREZ: {score:.2f} 🔥 itz {('meh','ok','slay','SHEEESH')[min(int(score)//5,3)]}!!")
+            template = cmd_def.get("response", "Score: {score:.2f} {rating}")
+            print(template.format(score=score, rating=_score_rating(score)))
         except Exception as e:
             print(f"❌ Error during alignment: {e}")
         return
 
-    # 💣 Random mutation chaos
-    if line.startswith("I CRAVE VIOLENCE"):
-        import random
-        parts = line.split()
-        name = parts[-1]
-        original = str(bio_vars[name])
+    if cmd_name == "mutate":
+        name = match.group("name")
+        var = _get_var(name)
+        if not var:
+            return
+        original = str(var)
         mutated = list(original)
         if not mutated:
             print("⚠️ sequence is empty, nothing to mutate")
             return
-        index = random.randint(0, len(mutated)-1)
+        index = random.randint(0, len(mutated) - 1)
         bases = "ACGTU"
         original_base = mutated[index]
         choices = [b for b in bases if b != original_base.upper()]
         mutated[index] = random.choice(choices)
         bio_vars[name] = BioSeq("".join(mutated))
-        print(f"💣 mutated {name} at pos {index+1}: {original[index]} ➜ {mutated[index]}")
+        template = cmd_def.get("response", "mutated {name} at pos {pos}: {old} ➜ {new}")
+        print(template.format(name=name, pos=index + 1, old=original[index], new=mutated[index]))
         return
+
+    if cmd_name == "length":
+        name = match.group("name")
+        var = _get_var(name)
+        if var:
+            template = cmd_def.get("response", "{name} is {value} bases long")
+            print(template.format(name=name, value=var.length()))
+        return
+
+    if cmd_name == "complement":
+        name = match.group("name")
+        var = _get_var(name)
+        if var:
+            bio_vars[name] = BioSeq(var.complement())
+        return
+
+    if cmd_name == "find_orf":
+        name = match.group("name")
+        var = _get_var(name)
+        if var:
+            orf = var.find_orf()
+            if orf:
+                template = cmd_def.get("orf_found", "ORF found: {orf} ({length} bp)")
+                print(template.format(orf=orf, length=len(orf)))
+            else:
+                template = cmd_def.get("orf_missing", "No ORF found in {name}")
+                print(template.format(name=name))
+        return
+
+    if cmd_name == "motif":
+        name = match.group("name")
+        pattern = match.group("pattern")
+        var = _get_var(name)
+        if var:
+            matches = var.find_motif(pattern)
+            if matches:
+                template = cmd_def.get("found", "Found {count} match(es):")
+                print(template.format(count=len(matches), pattern=pattern, name=name))
+                pos_template = cmd_def.get("position", "   pos {start}-{end}")
+                for start, end in matches:
+                    print(pos_template.format(start=start, end=end))
+            else:
+                template = cmd_def.get("not_found", "No matches for '{pattern}' in {name}")
+                print(template.format(pattern=pattern, name=name))
+        return
+
+
+def handle_line(line, dialect_name=None):
+    """Process a single bioLOLPython command line using the specified dialect."""
+    if dialect_name is None:
+        dialect_name = _current_dialect_name
+
+    if not line or line.startswith("BTW"):
+        return
+
+    dialect = get_dialect(dialect_name)
+
+    for cmd_name, cmd_def in dialect["commands"].items():
+        m = cmd_def["matcher"].match(line)
+        if m:
+            _execute_command(cmd_name, m, dialect)
+            return
+
+    # Check if this is an end command or comment — the regex might not match
+    # partial lines, so also check the print command specially since it's a prefix match
+    print_cmd = dialect["commands"].get("print")
+    if print_cmd:
+        keyword = print_cmd["pattern"]
+        if line.startswith(keyword):
+            msg = line[len(keyword):].strip()
+            print(_parse_visible(msg))
+            return
  
+def reset_bio_vars():
+    bio_vars.clear()
+
 def execfile(infile, module_name="__lolmain__"):
     "file, module_name -- exec the lolpython file in a newly created module"
     if not hasattr(infile, "read"):
-        s = open(infile, "r").read()
+        with open(infile, "r") as f:
+            s = f.read()
     else:
         s = infile.read()
     return execstring(s, module_name)

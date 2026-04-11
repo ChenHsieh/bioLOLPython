@@ -7,11 +7,15 @@ readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
   "biopython",
-  "ply"
+  "ply",
+  "pyyaml"
 ]
 
 [project.scripts]
 bioLOL = "bioLOLPython.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["bioLOLPython*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
