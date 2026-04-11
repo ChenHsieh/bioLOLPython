@@ -82,3 +82,7 @@ def main():
     with open(filename) as f:
         for line in f:
             handle_line(line.strip(), dialect_name=dialect)
+
+
+if __name__ == "__main__":
+    main()

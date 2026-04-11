@@ -4,6 +4,30 @@
 
 ![demo](demo.gif)
 
+## Table of Contents
+
+- [Background](#background)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Dialects](#dialects)
+  - [Side-by-side comparison](#side-by-side-comparison)
+- [Commands](#commands)
+- [Usage](#usage)
+  - [Run a script](#run-a-script)
+  - [Interactive REPL](#interactive-repl)
+  - [Web interface](#web-interface)
+  - [Fetch community dialects](#fetch-community-dialects)
+- [Creating a New Dialect](#creating-a-new-dialect)
+  - [YAML format](#yaml-format)
+  - [Pattern placeholders](#pattern-placeholders)
+  - [Generate with AI](#generate-with-ai)
+  - [Auto-generation via GitHub Actions](#auto-generation-via-github-actions)
+- [Examples](#examples)
+- [Running Tests](#running-tests)
+- [License](#license)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
+
 ## Background
 
 [LOLCODE](https://en.wikipedia.org/wiki/LOLCODE) is an esoteric programming language created in 2007 by Adam Lindsay, based on **lolspeak** — the broken-English caption style from the [lolcat](https://en.wikipedia.org/wiki/Lolcat) meme era.
@@ -12,7 +36,59 @@
 
 **bioLOLPython** extends LOLPython with bioinformatics commands and a **dialect system** that maps internet slang from different eras to the same DNA analysis operations. It's part scripting tool, part time capsule of internet culture.
 
-Try the web interface at [bioLOL.streamlit.app](https://bioLOL.streamlit.app).
+## Installation
+
+From PyPI:
+
+```
+pip install bioLOLPython
+```
+
+Or install with [pipx](https://pypa.github.io/pipx/) for an isolated CLI tool:
+
+```
+pipx install bioLOLPython
+```
+
+For development:
+
+```
+git clone https://github.com/ChenHsieh/bioLOLPython.git
+cd bioLOLPython
+pip install -e .
+```
+
+## Quick Start
+
+```
+HAI GENZOME 1.0
+DNA GO X ITZ "ATGCGTAC"
+GC BOMB X
+TRANSLATE X
+VISIBLE "protein: " + X
+KTHXBYE
+```
+
+Save as `hello.lolz` and run:
+
+```
+bioLOL hello.lolz
+```
+
+Or use brainrot dialect:
+
+```
+SKIBIDI GENOME
+SIGMA X RIZZ "ATGCGTAC"
+AURA CHECK X
+LOOKSMAX X
+HAWK TUAH "protein: " + X
+MOGGER OUT
+```
+
+```
+bioLOL --dialect brainrot hello_brainrot.lolz
+```
 
 ## Dialects
 
@@ -24,6 +100,8 @@ Each dialect represents a different era of internet slang. The biology stays the
 | `gen_z` | ~2018-2023 | no cap this DNA is bussin fr fr |
 | `brainrot` | ~2023-2026 | skibidi DNA sigma rizz |
 
+New dialects are [generated quarterly](#auto-generation-via-github-actions) by AI based on current internet trends.
+
 ### Side-by-side comparison
 
 | Operation | lolcat | gen_z | brainrot |
@@ -34,6 +112,10 @@ Each dialect represents a different era of internet slang. The biology stays the
 | Reverse complement | `REVERSE THAT X` | `UNO REVERSE X` | `FANUM TAX X` |
 | Transcribe | `TRANSCRIBE X` | `MAIN CHARACTER X` | `EDGING X` |
 | Translate | `TRANSLATE X` | `GLOW UP X` | `LOOKSMAX X` |
+| Complement | `COMPLEMENT X` | `MIRROR CHECK X` | `REVERSE UNO X` |
+| Length | `HOW LONG X` | `BESTIE HOW LONG X` | `GYATT HOW LONG X` |
+| Find ORF | `FIND ORF X` | `UNDERSTOOD THE ASSIGNMENT X` | `SIGMA GRIND X` |
+| Motif search | `MOTIF HUNT X FOR "CCC"` | `LIVING RENT FREE X FOR "CCC"` | `SUSSY SEARCH X FOR "CCC"` |
 | Mutate | `I CRAVE VIOLENCE X` | `CAUGHT IN 4K X` | `ONLY IN OHIO X` |
 | Align | `ALIGN A WIT B` | `RIZZ CHECK A AND B` | `MEWING CONTEST A VS B` |
 | Print | `VISIBLE "..." + X` | `SPILL "..." + X` | `HAWK TUAH "..." + X` |
@@ -41,88 +123,67 @@ Each dialect represents a different era of internet slang. The biology stays the
 
 ## Commands
 
-| Command | Description |
-|---|---|
-| Declare | Define a DNA sequence |
-| Reverse | Reverse complement |
-| GC content | Calculate GC content |
-| Transcribe | DNA to RNA |
-| Translate | DNA to protein |
-| Complement | Complement without reversing |
-| Length | Sequence length |
-| Find ORF | Find first open reading frame |
-| Motif search | Find pattern occurrences |
-| Mutate | Random point mutation |
-| Align | Global pairwise alignment |
-| Print | Print variables with string concatenation |
+bioLOLPython supports 14 biological operations, each mapped to dialect-specific syntax:
 
-## Example (lolcat)
+| Command | Description | Output |
+|---|---|---|
+| **Declare** | Define a named DNA sequence | — |
+| **GC content** | Calculate GC percentage | `GC content: 50.00%` |
+| **Reverse complement** | Reverse complement a sequence | Modifies variable in place |
+| **Transcribe** | DNA → RNA (T→U) | Modifies variable in place |
+| **Translate** | DNA → protein (codon table) | Modifies variable in place |
+| **Complement** | Complement without reversing | Modifies variable in place |
+| **Length** | Sequence length in bases | `X is 8 bases long` |
+| **Find ORF** | Find first open reading frame (ATG…stop) | ORF sequence and length |
+| **Motif search** | Find all occurrences of a pattern | Positions of each match |
+| **Mutate** | Random single-base substitution | Reports position and change |
+| **Align** | Global pairwise alignment (Biopython) | Similarity score and rating |
+| **Print** | Print strings and/or variables | Supports `+` concatenation |
+| **Start / End** | Program delimiters | Greeting message on start |
 
-```
-HAI GENZOME 1.0
-DNA GO X ITZ "ATGCGTAC"
-GC BOMB X
-TRANSLATE X
-VISIBLE "protein: " + X
-KTHXBYE
-```
-
-## Example (brainrot)
-
-```
-SKIBIDI GENOME
-SIGMA X RIZZ "ATGCGTAC"
-AURA CHECK X
-LOOKSMAX X
-HAWK TUAH "protein: " + X
-MOGGER OUT
-```
-
-## Installation
-
-Install with [pipx](https://pypa.github.io/pipx/) (recommended):
-
-```
-pipx install git+https://github.com/ChenHsieh/bioLOLPython.git
-```
-
-Or install locally for development:
-
-```
-git clone https://github.com/ChenHsieh/bioLOLPython.git
-cd bioLOLPython
-pip install -e .
-```
+DNA sequences are validated against [IUPAC nucleotide codes](https://www.bioinformatics.org/sms/iupac.html) (ACGTUNRYSWKMBDHV) on declaration.
 
 ## Usage
 
-Run a script:
+### Run a script
+
 ```
 bioLOL script.lolz                       # default (lolcat)
-bioLOL --dialect gen_z script.lolz       # gen z mode
+bioLOL --dialect gen_z script.lolz       # Gen Z mode
 bioLOL --dialect brainrot script.lolz    # brainrot mode
 ```
 
-Interactive REPL:
+### Interactive REPL
+
 ```
 bioLOL                                   # lolcat REPL
 bioLOL --dialect brainrot                # brainrot REPL
 ```
 
-List available dialects:
+### Web interface
+
+Try it at [bioLOL.streamlit.app](https://bioLOL.streamlit.app) — includes a dialect selector and example scripts for each era.
+
+To run locally:
+
 ```
-bioLOL --list-dialects
+pip install streamlit
+streamlit run streamlit_app.py
 ```
 
-Fetch latest dialects from the remote registry:
+### Fetch community dialects
+
 ```
-bioLOL --update                          # uses 24h cache
+bioLOL --list-dialects                   # show available dialects
+bioLOL --update                          # fetch latest from registry (24h cache)
 bioLOL --update --force                  # bypass cache
 ```
 
+User dialects are stored in `~/.bioLOL/dialects/`.
+
 ## Creating a New Dialect
 
-Dialects are YAML files. Create one in `bioLOLPython/dialects/definitions/` or drop it into `~/.bioLOL/dialects/` for personal use.
+Dialects are YAML files. Drop one into `~/.bioLOL/dialects/` for personal use, or add it to `bioLOLPython/dialects/definitions/` and open a PR.
 
 ### YAML format
 
@@ -179,6 +240,8 @@ examples:
     MY END COMMAND
 ```
 
+All 14 commands are required. The dialect is validated on load.
+
 ### Pattern placeholders
 
 | Placeholder | Captures |
@@ -188,11 +251,9 @@ examples:
 | `{seq}` | A quoted DNA sequence (e.g., `"ATGC"`) |
 | `{pattern}` | A quoted search pattern |
 
-All 14 commands are required. The dialect is validated on load.
-
 ### Generate with AI
 
-Use the generator script to create a dialect with Claude:
+Use the generator script to create a dialect with the Claude API:
 
 ```bash
 # Specify name, era, and description
@@ -212,16 +273,38 @@ Requires `ANTHROPIC_API_KEY` environment variable and `pip install anthropic`.
 
 ### Auto-generation via GitHub Actions
 
-A [GitHub Action](.github/workflows/generate-dialect.yml) runs monthly to generate a new dialect based on current internet trends. It:
+A [GitHub Action](.github/workflows/generate-dialect.yml) runs quarterly to generate a new dialect based on current internet trends. It:
 
-1. Calls Claude API to generate a dialect YAML
-2. Validates the output against the schema
-3. Runs the test suite
+1. Calls the Claude API to generate a dialect YAML
+2. Validates the output against the required schema
+3. Runs the full test suite
 4. Opens a PR for human review
 
-To trigger manually: go to Actions > "Generate New Dialect" > Run workflow, and optionally provide a custom theme.
+To trigger manually: Actions > "Generate New Dialect" > Run workflow. You can optionally provide a custom theme.
 
-Requires the `ANTHROPIC_API_KEY` repository secret.
+Requires the `ANTHROPIC_API_KEY` repository secret (Settings > Secrets > Actions).
+
+## Examples
+
+Example scripts are in the [`examples/`](examples/) directory:
+
+| File | Dialect | What it does |
+|---|---|---|
+| `test_bio.lolz` | lolcat | GC content, transcription, translation |
+| `test_alignment.lolz` | lolcat | Pairwise sequence alignment |
+| `test_violence.lolz` | lolcat | Random mutation |
+| `test_transcribe.lolz` | lolcat | DNA → RNA |
+| `test_translate.lolz` | lolcat | DNA → protein |
+| `gen_z_demo.lolz` | gen_z | Full sequence analysis workflow |
+| `brainrot_demo.lolz` | brainrot | Full sequence analysis workflow |
+
+Run any example:
+
+```
+bioLOL examples/test_bio.lolz
+bioLOL --dialect gen_z examples/gen_z_demo.lolz
+bioLOL --dialect brainrot examples/brainrot_demo.lolz
+```
 
 ## Running Tests
 
@@ -230,18 +313,28 @@ pip install pytest
 pytest
 ```
 
+96 tests covering the BioSeq class, interpreter commands across all dialects, and dialect loading/validation.
+
 Requires Python >= 3.8. Dependencies: `biopython`, `ply`, `pyyaml`.
 
 ## License
 
-MIT License.
+[MIT](LICENSE)
 
 ## Contributing
 
-Contributions welcome — especially new dialects. The easiest way to contribute is to write a YAML dialect file and open a PR. See the format above.
+Contributions welcome — especially new dialects. The easiest way to contribute:
+
+1. Write a YAML dialect file following the [format above](#yaml-format)
+2. Add your dialect name to `bioLOLPython/dialects/definitions/index.txt`
+3. Add example scripts to `examples/`
+4. Run `pytest` to verify
+5. Open a PR
+
+Or use the [AI generator](#generate-with-ai) as a starting point and customize from there.
 
 ## Acknowledgments
 
 - LOLPython by Andrew Dalke (public domain)
-- Bioinformatics extensions and dialect system by Chen Hsieh (2025)
+- Bioinformatics extensions and dialect system by Chen Hsieh
 - Development assisted by AI tools (ChatGPT, Claude)
