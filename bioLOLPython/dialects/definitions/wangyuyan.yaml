@@ -1,0 +1,71 @@
+name: wangyuyan
+era: "~2015-2020"
+description: "666这基因组YYDS。Chinese internet slang era meets molecular biology — yyds, xswl, 打工人."
+
+commands:
+  init:
+    pattern: "666 基因组"
+    greeting: "✨ 666！开始分析基因组，冲鸭！🧬"
+  end:
+    pattern: "撤了"
+  declare:
+    pattern: '安排 {name} 是 {seq}'
+  reverse:
+    pattern: "翻转 {name}"
+  gc_content:
+    pattern: "YYDS检测 {name}"
+    response: "💯 GC含量: {value:.2f}% YYDS 🧬"
+  print:
+    pattern: "xswl"
+  transcribe:
+    pattern: "转录 {name}"
+  translate:
+    pattern: "翻译 {name}"
+  align:
+    pattern: "对齐 {a} 和 {b}"
+    response: "🎯 对齐得分: {score:.2f} {rating} 666"
+  mutate:
+    pattern: "我酸了 {name}"
+    response: "😅 我酸了！{name} 第{pos}位突变: {old} ➜ {new}"
+  length:
+    pattern: "多长 {name}"
+    response: "📏 {name} 长度是 {value} 个碱基"
+  complement:
+    pattern: "互补 {name}"
+  find_orf:
+    pattern: "打工人 {name}"
+    orf_found: "💪 打工人找到ORF: {orf} ({length} bp) 冲鸭！"
+    orf_missing: "😢 {name} 没找到ORF（没有ATG起始密码子）摆了"
+  motif:
+    pattern: '冲鸭 {name} 找 {pattern}'
+    found: "🔍 '{pattern}' 在 {name} 里出现了 {count} 次:"
+    position: "   位置 {start}-{end}"
+    not_found: "🔍 '{pattern}' 在 {name} 里没找到，xswl"
+
+examples:
+  GC Content: |
+    666 基因组
+    安排 X 是 "ATGCATGC"
+    YYDS检测 X
+    撤了
+  Protein Translation: |
+    666 基因组
+    安排 Y 是 "ATGGAGGAGCC"
+    翻译 Y
+    xswl "蛋白质: " + Y
+    撤了
+  Alignment: |
+    666 基因组
+    安排 A 是 "ATGCGTAGG"
+    安排 B 是 "ATGCGTACG"
+    对齐 A 和 B
+    撤了
+  Sequence Analysis: |
+    666 基因组
+    安排 X 是 "AAATGCCCCCCTAAGG"
+    多长 X
+    打工人 X
+    冲鸭 X 找 "CCC"
+    互补 X
+    xswl "互补序列: " + X
+    撤了

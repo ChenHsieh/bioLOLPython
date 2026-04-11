@@ -82,7 +82,7 @@ def validate_dialect(dialect_def):
 
 def load_yaml_dialect(path):
     """Load and compile a dialect from a YAML file."""
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf-8") as f:
         dialect_def = yaml.safe_load(f)
     validate_dialect(dialect_def)
     return compile_dialect(dialect_def)

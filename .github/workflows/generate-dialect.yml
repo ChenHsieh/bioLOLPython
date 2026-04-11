@@ -73,6 +73,9 @@ jobs:
             echo "$DIALECT_NAME" >> bioLOLPython/dialects/definitions/index.txt
           fi
 
+      - name: Regenerate gallery
+        run: python scripts/generate_gallery.py
+
       - name: Run tests with new dialect
         run: pytest tests/ -v
 

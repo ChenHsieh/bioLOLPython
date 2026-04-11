@@ -88,7 +88,22 @@ Save as `hello.lolz` and run:
 bioLOL hello.lolz
 ```
 
-Or use brainrot dialect:
+Or use Chinese internet slang:
+
+```
+666 基因组
+安排 X 是 "ATGCGTAC"
+YYDS检测 X
+翻译 X
+xswl "蛋白质: " + X
+撤了
+```
+
+```
+bioLOL --dialect wangyuyan hello_cn.lolz
+```
+
+Or brainrot:
 
 ```
 SKIBIDI GENOME
@@ -110,10 +125,11 @@ Each dialect represents a different era of internet slang. The biology stays the
 | Dialect | Era | Vibe |
 |---|---|---|
 | `lolcat` | ~2005-2012 | I CAN HAS BIOINFORMATICS? |
+| `wangyuyan` | ~2015-2020 | 666这基因组YYDS (Chinese internet slang) |
 | `gen_z` | ~2018-2023 | no cap this DNA is bussin fr fr |
 | `brainrot` | ~2023-2026 | skibidi DNA sigma rizz |
 
-New dialects are [generated quarterly](#auto-generation-via-github-actions) by AI based on current internet trends.
+New dialects are [generated quarterly](#auto-generation-via-github-actions) by AI based on current internet trends. For the full gallery with command cheat sheets, see [GALLERY.md](GALLERY.md).
 
 ### Side-by-side comparison
 
@@ -310,6 +326,7 @@ Example scripts are in the [`examples/`](examples/) directory:
 | `test_translate.lolz` | lolcat | DNA → protein |
 | `gen_z_demo.lolz` | gen_z | Full sequence analysis workflow |
 | `brainrot_demo.lolz` | brainrot | Full sequence analysis workflow |
+| `wangyuyan_demo.lolz` | wangyuyan | Full sequence analysis workflow (Chinese) |
 
 Run any example:
 
