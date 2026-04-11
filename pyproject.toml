@@ -12,3 +12,6 @@ dependencies = [
 
 [project.scripts]
 bioLOL = "bioLOLPython.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
