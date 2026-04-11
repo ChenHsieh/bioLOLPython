@@ -1,9 +1,9 @@
 name: Generate New Dialect
 
 on:
-  # Run monthly on the 1st
+  # Run quarterly (Jan 1, Apr 1, Jul 1, Oct 1)
   schedule:
-    - cron: '0 0 1 * *'
+    - cron: '0 0 1 1,4,7,10 *'
   # Allow manual trigger with custom theme
   workflow_dispatch:
     inputs:
