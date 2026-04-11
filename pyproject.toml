@@ -1,21 +1,38 @@
 [project]
 name = "bioLOLPython"
 version = "0.1.0"
-description = "A meme-inspired biological language interpreter (bioLOLCODE)"
+description = "A meme-inspired biological language interpreter — internet slang meets bioinformatics"
 authors = [{name="Chen Hsieh", email="chen.hsieh.uga@gmail.com"}]
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.8"
+keywords = ["bioinformatics", "esoteric-language", "meme", "lolcode", "dna", "genomics"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
 dependencies = [
   "biopython",
   "ply",
   "pyyaml"
 ]
 
+[project.urls]
+Homepage = "https://github.com/ChenHsieh/bioLOLPython"
+Repository = "https://github.com/ChenHsieh/bioLOLPython"
+Issues = "https://github.com/ChenHsieh/bioLOLPython/issues"
+
 [project.scripts]
 bioLOL = "bioLOLPython.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["bioLOLPython*"]
+
+[tool.setuptools.package-data]
+"bioLOLPython.dialects.definitions" = ["*.yaml", "*.txt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
