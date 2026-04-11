@@ -125,6 +125,7 @@ Each dialect represents a different era of internet slang. The biology stays the
 | Dialect | Era | Vibe |
 |---|---|---|
 | `lolcat` | ~2005-2012 | I CAN HAS BIOINFORMATICS? |
+| `taiwan_ptt` | ~2010-2020 | 484很純？PTT/Dcard鄉民用語 (Taiwanese internet slang) |
 | `wangyuyan` | ~2015-2020 | 666这基因组YYDS (Chinese internet slang) |
 | `gen_z` | ~2018-2023 | no cap this DNA is bussin fr fr |
 | `brainrot` | ~2023-2026 | skibidi DNA sigma rizz |
@@ -327,6 +328,7 @@ Example scripts are in the [`examples/`](examples/) directory:
 | `gen_z_demo.lolz` | gen_z | Full sequence analysis workflow |
 | `brainrot_demo.lolz` | brainrot | Full sequence analysis workflow |
 | `wangyuyan_demo.lolz` | wangyuyan | Full sequence analysis workflow (Chinese) |
+| `taiwan_ptt_demo.lolz` | taiwan_ptt | Full sequence analysis workflow (Taiwanese) |
 
 Run any example:
 

@@ -1,0 +1,71 @@
+name: taiwan_ptt
+era: "~2010-2020"
+description: "484很純？PTT/Dcard鄉民用語遇上生物資訊 — 推、484、母湯、歐印."
+
+commands:
+  init:
+    pattern: "開搞 基因組"
+    greeting: "🇹🇼 鄉民生物實驗室 開張啦！推推推 🧬"
+  end:
+    pattern: "收工"
+  declare:
+    pattern: '宣布 {name} 是 {seq}'
+  reverse:
+    pattern: "倒轉 {name}"
+  gc_content:
+    pattern: "484很純 {name}"
+    response: "🧪 GC含量: {value:.2f}% {rating} 🧬"
+  print:
+    pattern: "推"
+  transcribe:
+    pattern: "轉錄 {name}"
+  translate:
+    pattern: "翻譯 {name}"
+  align:
+    pattern: "對齊 {a} 跟 {b}"
+    response: "📊 對齊分數: {score:.2f} {rating} 讚"
+  mutate:
+    pattern: "歐印 {name}"
+    response: "🎲 歐印！{name} 第{pos}位突變: {old} ➜ {new} 運氣真好"
+  length:
+    pattern: "多長啊 {name}"
+    response: "📏 {name} 有 {value} 個鹼基 這麼長"
+  complement:
+    pattern: "互補 {name}"
+  find_orf:
+    pattern: "認真找 {name}"
+    orf_found: "💪 認真找到ORF: {orf} ({length} bp) 神！"
+    orf_missing: "😢 {name} 找不到ORF（沒有ATG起始密碼子）母湯"
+  motif:
+    pattern: '搜尋 {name} 找 {pattern}'
+    found: "🔍 '{pattern}' 在 {name} 裡面出現 {count} 次:"
+    position: "   位置 {start}-{end}"
+    not_found: "🔍 '{pattern}' 在 {name} 裡面沒有 QQ"
+
+examples:
+  GC Content: |
+    開搞 基因組
+    宣布 X 是 "ATGCATGC"
+    484很純 X
+    收工
+  Protein Translation: |
+    開搞 基因組
+    宣布 Y 是 "ATGGAGGAGCC"
+    翻譯 Y
+    推 "蛋白質: " + Y
+    收工
+  Alignment: |
+    開搞 基因組
+    宣布 A 是 "ATGCGTAGG"
+    宣布 B 是 "ATGCGTACG"
+    對齊 A 跟 B
+    收工
+  Sequence Analysis: |
+    開搞 基因組
+    宣布 X 是 "AAATGCCCCCCTAAGG"
+    多長啊 X
+    認真找 X
+    搜尋 X 找 "CCC"
+    互補 X
+    推 "互補序列: " + X
+    收工

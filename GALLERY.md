@@ -3,7 +3,7 @@
 
 # Dialect Gallery
 
-*4 dialects, sorted chronologically.*
+*5 dialects, sorted chronologically.*
 
 ---
 
@@ -37,6 +37,40 @@ HAI GENZOME 1.0
 DNA GO X ITZ "ATGCATGC"
 GC BOMB X
 KTHXBYE
+```
+
+---
+
+## taiwan_ptt (`~2010-2020`)
+
+484很純？PTT/Dcard鄉民用語遇上生物資訊 — 推、484、母湯、歐印.
+
+### Commands
+
+| Command | Syntax |
+|---|---|
+| init | `開搞 基因組` |
+| end | `收工` |
+| declare | `宣布 {name} 是 {seq}` |
+| reverse | `倒轉 {name}` |
+| gc_content | `484很純 {name}` |
+| print | `推` |
+| transcribe | `轉錄 {name}` |
+| translate | `翻譯 {name}` |
+| align | `對齊 {a} 跟 {b}` |
+| mutate | `歐印 {name}` |
+| length | `多長啊 {name}` |
+| complement | `互補 {name}` |
+| find_orf | `認真找 {name}` |
+| motif | `搜尋 {name} 找 {pattern}` |
+
+### Example: GC Content
+
+```
+開搞 基因組
+宣布 X 是 "ATGCATGC"
+484很純 X
+收工
 ```
 
 ---
