@@ -6,12 +6,13 @@
 [![License: MIT](https://img.shields.io/github/license/ChenHsieh/bioLOLPython)](LICENSE)
 [![Streamlit](https://img.shields.io/badge/demo-Streamlit-FF4B4B?logo=streamlit)](https://bioLOL.streamlit.app)
 
-*A LOLCODE-inspired scripting language for biological sequence analysis — now with multiple internet slang dialects.*
+*A time capsule of internet slang eras, doubling as a bioinformatics scripting language.*
 
 ![demo](demo.gif)
 
 ## Table of Contents
 
+- [Why This Exists](#why-this-exists)
 - [Background](#background)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
@@ -34,13 +35,19 @@
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
 
+## Why This Exists
+
+As someone who moved between countries and languages, I've always paid attention to how people actually talk — the slang, the in-jokes, the words that date you to a specific moment online. Moving to the US, I went through the same process with English internet culture: learning what "I can has" meant in 2008, what "no cap" meant in 2020, and what "skibidi" means now.
+
+Slang is ephemeral. The words people use to say "this is good" rotate every few years, and each generation's vocabulary becomes incomprehensible to the next. This project treats that as a feature: each era of internet slang becomes a selectable dialect for the same set of DNA analysis operations. The biology doesn't change — only the way you talk to it.
+
+bioLOLPython is a time capsule. New dialects are generated quarterly from whatever is trending, so the project accumulates a running record of how the internet spoke at each point in time.
+
 ## Background
 
-[LOLCODE](https://en.wikipedia.org/wiki/LOLCODE) is an esoteric programming language created in 2007 by Adam Lindsay, based on **lolspeak** — the broken-English caption style from the [lolcat](https://en.wikipedia.org/wiki/Lolcat) meme era.
+[LOLCODE](https://en.wikipedia.org/wiki/LOLCODE) is an esoteric programming language created in 2007 by Adam Lindsay, based on **lolspeak** — the broken-English caption style from the [lolcat](https://en.wikipedia.org/wiki/Lolcat) meme era. [LOLPython](https://github.com/KartikTalwar/LOLPython), by Andrew Dalke, adapted the concept into a Python transpiler.
 
-[LOLPython](https://github.com/KartikTalwar/LOLPython), by Andrew Dalke, adapted the concept into a transpiler that converts lolspeak-style syntax into executable Python.
-
-**bioLOLPython** extends LOLPython with bioinformatics commands and a **dialect system** that maps internet slang from different eras to the same DNA analysis operations. It's part scripting tool, part time capsule of internet culture.
+**bioLOLPython** extends LOLPython with bioinformatics commands and a **dialect system** that maps internet slang from different eras to the same DNA analysis operations.
 
 ## Installation
 
@@ -341,6 +348,7 @@ Or use the [AI generator](#generate-with-ai) as a starting point and customize f
 
 ## Acknowledgments
 
-- LOLPython by Andrew Dalke (public domain)
-- Bioinformatics extensions and dialect system by Chen Hsieh
-- Development assisted by AI tools (ChatGPT, Claude)
+- [LOLPython](https://github.com/KartikTalwar/LOLPython) by Andrew Dalke (public domain) — the original inspiration
+- Bioinformatics extensions, dialect system, and curation by [Chen Hsieh](https://github.com/ChenHsieh)
+- Development assisted by Claude (Anthropic) and ChatGPT (OpenAI)
+- Every generation of internet users who invented words that made the previous generation confused
