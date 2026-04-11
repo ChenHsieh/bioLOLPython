@@ -1,5 +1,11 @@
 # bioLOLPython
 
+[![PyPI version](https://img.shields.io/pypi/v/bioLOLPython)](https://pypi.org/project/bioLOLPython/)
+[![Python](https://img.shields.io/pypi/pyversions/bioLOLPython)](https://pypi.org/project/bioLOLPython/)
+[![Tests](https://github.com/ChenHsieh/bioLOLPython/actions/workflows/publish.yml/badge.svg)](https://github.com/ChenHsieh/bioLOLPython/actions/workflows/publish.yml)
+[![License: MIT](https://img.shields.io/github/license/ChenHsieh/bioLOLPython)](LICENSE)
+[![Streamlit](https://img.shields.io/badge/demo-Streamlit-FF4B4B?logo=streamlit)](https://bioLOL.streamlit.app)
+
 *A LOLCODE-inspired scripting language for biological sequence analysis — now with multiple internet slang dialects.*
 
 ![demo](demo.gif)
