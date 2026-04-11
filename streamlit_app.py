@@ -52,6 +52,8 @@ with col1:
 - **gen_z** (~2018-2023): TikTok-era slang
 - **brainrot** (~2023-2026): Skibidi sigma posting
 
+New dialects are generated quarterly using AI and contributed by the community.
+
 Built on [LOLPython](https://github.com/KartikTalwar/LOLPython) and [Biopython](https://biopython.org/).
 
 ![](https://github.com/ChenHsieh/bioLOLPython/blob/master/static/bg_lolcat.jpg?raw=true)
@@ -66,14 +68,19 @@ with col2:
 2. Pick an example or write your own script.
 3. Click **RUN da CODE** to see the output.
 
-Each dialect uses different slang for the same DNA operations.
+Each dialect uses different slang for the same 14 DNA operations:
+declare, reverse complement, GC content, transcribe, translate,
+complement, length, ORF finding, motif search, mutation,
+alignment, and print.
+
+See the [README](https://github.com/ChenHsieh/bioLOLPython) for full command reference and the side-by-side dialect comparison.
 """)
     st.divider()
 
     # Dialect selector
     dialect_info = {d["name"]: d for d in list_dialects()}
     dialect_name = st.selectbox(
-        "🎭 Choose your meme era:",
+        "Choose your meme era:",
         dialect_names(),
         format_func=lambda n: f"{n} ({dialect_info[n]['era']}) — {dialect_info[n]['description']}"
     )
@@ -101,7 +108,7 @@ Each dialect uses different slang for the same DNA operations.
     )
 
     # Run
-    if st.button("💥 RUN da CODE"):
+    if st.button("RUN da CODE"):
         st.subheader("Outputz")
         reset_bio_vars()
         output_buffer = io.StringIO()

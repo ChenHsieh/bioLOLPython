@@ -60,3 +60,12 @@ examples:
     DNA GO B ITZ "ATGCGTACG"
     ALIGN A WIT B
     KTHXBYE
+  Sequence Analysis: |
+    HAI GENZOME 1.0
+    DNA GO X ITZ "AAATGCCCCCCTAAGG"
+    HOW LONG X
+    FIND ORF X
+    MOTIF HUNT X FOR "CCC"
+    COMPLEMENT X
+    VISIBLE "complement: " + X
+    KTHXBYE
